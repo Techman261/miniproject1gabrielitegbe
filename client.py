@@ -28,7 +28,12 @@ class PracticeHubClient:
         return resp.json()
 
     # TODO (Mini Project 1): get_post, update_post, delete_post
-
+    def get_post(self,id=0,tag=None):
+        
+        resp = requests.get(f"{self.base}/api/v1/posts/{id}", headers=self.headers)
+        resp.raise_for_status()
+        return resp.json()
+    
 
 if __name__ == "__main__":
     if not TOKEN:
@@ -39,7 +44,14 @@ if __name__ == "__main__":
     everyone = client.list_posts()
     print(f"posts on the hub: {len(everyone)}")
 
-    new_post = client.create_post("Week 3 lab", body="My first created post.")
-    print(f"created post {new_post['id']}: {new_post['title']}")
+    #new_post = client.create_post("Week 3 lab", body="My first created post.")
+    #print(f"created post {new_post['id']}: {new_post['title']}")
 
-    print(f"posts that are mine: {len(client.list_posts(mine=True))}")
+    #print(f"posts that are mine: {len(client.list_posts(mine=True))}")
+
+    post_id=8
+    post_by_id=client.get_post(id=post_id)
+    #print(f"fetched post by {post_id} : {post_by_id['id']} : {post_by_id['title']}")
+    print(post_by_id)
+
+    
