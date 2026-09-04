@@ -35,8 +35,11 @@ class PracticeHubClient:
         resp = requests.patch(f"{self.base}/api/v1/posts/{id}", headers=self.headers, params=params,json={"title": title, "body": body, "tags": tags or []})
         resp.raise_for_status()
         return resp.json()
-    
-    
+    def delete_post(self, id = 0, mine = False):
+        params = {"mine": mine}
+        resp = requests.delete(f"{self.base}/api/v1/posts/{id}", headers=self.headers, params=params)
+        resp.raise_for_status()
+        return {"message" : "post deleted successfully"}
 if __name__ == "__main__":
     if not TOKEN:
         raise SystemExit("PRACTICE_API_TOKEN is not set - see 'Set your token' in Week 2.")
@@ -48,11 +51,13 @@ if __name__ == "__main__":
     #print(f"posts that are mine: {len(client.list_posts(mine=True))}")
     post_id=1
     post_by_id=client.get_post(id=post_id)
-    #print(f"fetched post by {post_id} : {post_by_id['id']} : {post_by_id['title']}")
     print(post_by_id)
 
-    post_id = 11
-    title = "Week 3 Lab"
-    body = "Updating my first post."
-    updated_post = client.update_post(title, body=body, id = post_id, mine=True)
-    print(updated_post)
+    # post_id = 8
+    # title = "Week 3 Lab"
+    # body = "Updating my first post."
+    # updated_post = client.update_post(title, body=body, id = post_id, mine=True)
+    # print(updated_post)
+    post_id = 5
+    delete_post = client.delete_post(id=post_id, mine=True)
+    print(delete_post)
